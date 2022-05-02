@@ -1,0 +1,73 @@
+{% extends "base.html" %} {% block title %}Domů{% endblock %} {% block content
+%}
+
+
+<br>
+<h1 align="center">ToDo List</h1>
+<br>
+
+<form method="POST" action="create-note">
+  <textarea name="note" id="note" class="form-control"></textarea>
+  <br />
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Přidat poznámku</button>
+  </div>
+</form>
+<br>
+<br>
+
+<div align="right">
+ <a href="/" class="btn btn-outline-second btn-sm state" >vše</a>
+    <a href="?status=Udělat"  class="btn btn-outline-second btn-sm state" >udělat</a>
+    <a href="?status=Rozpracovaný"  class="btn btn-outline-second btn-sm state" >rozpracovaný</a>
+    <a href="?status=Dokončený"  class="btn btn-outline-second btn-sm state" >dokončený</a>
+
+</div>
+
+    <!--Todo Table-->
+    <div class="container table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="task">Úkol</th>
+            <th class="status">Status</th>
+            <th class="update">Upravit</th>
+            <th class="update">Odstranit</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for note in notes %}
+            <tr>
+
+                <td>{{note.data}}</td>
+
+
+
+                {% if note.status == "Rozpracovaný" %}
+                    <td><button type="button" class="btn btn-outline-warning btn-sm state" data-source="{{note.id}}" onClick="updateNoteState({{ note.id }})">{{note.status}}</button></td>
+                {%endif%}
+                {% if note.status == "Udělat" %}
+                    <td><button type="button" class="btn btn-outline-danger btn-sm state" data-source="{{note.id}}" onClick="updateNoteState({{ note.id }})">{{note.status}}</button></td>
+                {%endif%}
+                {% if note.status == "Dokončený" %}
+                    <td><button type="button" class="btn btn-outline-success btn-sm state" data-source="{{note.id}}" onClick="updateNoteState({{ note.id }})">{{note.status}}</button></td>
+                {%endif%}
+
+
+
+
+                <td><button type="button" class="btn btn-outline-info btn-sm"  onClick="editNote({{ note.id }})"><i class="fa fa-pen fa-1" aria-hidden="true"></i></button></td>
+
+                <td><button class="btn btn-danger" data-source="{{note.id}}" type="button" onClick="deleteNote({{ note.id }})"><i class="fa fa-trash fa-1" aria-hidden="true"></i></button></td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    </div>
+
+
+{% endblock %}
+
+
